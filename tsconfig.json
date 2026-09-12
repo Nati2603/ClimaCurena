@@ -5,12 +5,13 @@
     "paths": {
       "@/*": [
         "./src/*"
-      ],
-      "@/assets/*": [
-        "./assets/*"
       ]
     }
   },
+  "exclude": [
+    "example",
+    "node_modules"
+  ],
   "include": [
     "**/*.ts",
     "**/*.tsx",

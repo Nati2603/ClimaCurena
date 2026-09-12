@@ -1,3 +1,4 @@
+import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -6,14 +7,26 @@ import { LocationCard } from "@/components/LocationCard";
 import { LOCATIONS, type Location } from "@/data/locations";
 
 export default function Index() {
+  const router = useRouter();
+
   return (
     <SafeAreaView style={styles.safeArea} edges={["top", "left", "right"]}>
       <StatusBar style="dark" />
+
       <FlatList<Location>
         data={LOCATIONS}
         keyExtractor={(location) => location.id}
         renderItem={({ item }) => (
-          <LocationCard name={item.name} description={item.description} />
+          <LocationCard
+            name={item.name}
+            description={item.description}
+            onPress={() =>
+              router.push({
+                pathname: "/location/[id]",
+                params: { id: item.id },
+              })
+            }
+          />
         )}
         contentContainerStyle={styles.listContent}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
@@ -21,9 +34,11 @@ export default function Index() {
         ListHeaderComponent={
           <View style={styles.header}>
             <Text style={styles.title}>Clima Cureña</Text>
+
             <Text style={styles.subtitle}>
               Información meteorológica de comunidades cercanas a Unión del Toro
             </Text>
+
             <View style={styles.hint}>
               <Text style={styles.hintText}>
                 Selecciona una comunidad para consultar su clima

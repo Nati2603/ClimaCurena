@@ -1,20 +1,35 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 type LocationCardProps = {
   name: string;
   description: string;
+  onPress: () => void;
 };
 
-/** Tarjeta reutilizable para mostrar una comunidad en el listado. */
-export function LocationCard({ name, description }: LocationCardProps) {
+/** Tarjeta reutilizable para seleccionar una comunidad. */
+export function LocationCard({
+  name,
+  description,
+  onPress,
+}: LocationCardProps) {
   return (
-    <View style={styles.card}>
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={`Consultar el clima de ${name}`}
+      onPress={onPress}
+      style={({ pressed }) => [
+        styles.card,
+        pressed && styles.cardPressed,
+      ]}
+    >
       <View style={styles.accent} />
+
       <View style={styles.content}>
         <Text style={styles.name}>{name}</Text>
         <Text style={styles.description}>{description}</Text>
+        <Text style={styles.action}>Consultar clima →</Text>
       </View>
-    </View>
+    </Pressable>
   );
 }
 
@@ -31,6 +46,10 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     shadowOffset: { width: 0, height: 3 },
     elevation: 2,
+  },
+  cardPressed: {
+    opacity: 0.75,
+    transform: [{ scale: 0.99 }],
   },
   accent: {
     width: 6,
@@ -51,5 +70,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 20,
     color: "#4B6B57",
+  },
+  action: {
+    marginTop: 6,
+    fontSize: 13,
+    fontWeight: "600",
+    color: "#1B5E8C",
   },
 });
